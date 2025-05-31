@@ -1,0 +1,657 @@
+/* No changes needed for style.css based on the current requirements.
+   The new date inputs will inherit styles from other input[type="date"]
+   and select elements. */
+
+/* Keeping the previous full style.css content for completeness: */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+header {
+    background-color: #4CAF50;
+    color: white;
+    padding: 1rem 0;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex; /* Use flexbox for alignment */
+    align-items: center; /* Vertically center items */
+    justify-content: space-between; /* Space out items */
+    padding-left: 20px; /* Add some padding on the left */
+    padding-right: 20px; /* Add some padding on the right */
+}
+
+header h1 {
+    margin: 0;
+    flex-grow: 1; /* Allow h1 to take available space */
+    text-align: center;
+}
+
+header nav {
+    display: flex;
+    align-items: center;
+}
+
+nav button {
+    background-color: #5cb85c;
+    color: white;
+    border: none;
+    padding: 0.8rem 1.2rem;
+    margin: 0 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+nav button:hover {
+    background-color: #4cae4c;
+}
+
+main {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 20px auto;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+}
+
+/* Authentication Forms */
+.auth-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Align forms to the top */
+    min-height: 400px; /* Ensure enough height for forms */
+}
+
+.auth-form {
+    background-color: #f9f9f9;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    display: none; /* Hidden by default, shown by JS */
+    box-sizing: border-box; /* Include padding in width */
+}
+
+.auth-form.active {
+    display: block;
+}
+
+.auth-form h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.auth-form input[type="email"],
+.auth-form input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.auth-form button[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.auth-form button[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+.auth-form .message {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 0.9rem;
+}
+
+.auth-form p {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 0.9rem;
+}
+
+.auth-form a {
+    color: #4CAF50;
+    text-decoration: none;
+}
+
+.auth-form a:hover {
+    text-decoration: underline;
+}
+
+/* Calendar View */
+.calendar-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 10px; /* Space between items */
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+}
+
+.calendar-controls button,
+.calendar-controls select {
+    padding: 8px 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f0f0f0;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.calendar-controls button:hover {
+    background-color: #e0e0e0;
+}
+
+.calendar-controls span {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin: 0 10px;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: 100px repeat(5, 1fr); /* Time column + 5 days */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden; /* Ensures borders look clean */
+}
+
+.calendar-header,
+.time-slot-header,
+.calendar-cell {
+    border: 1px solid #eee;
+    padding: 10px;
+    text-align: center;
+    min-height: 80px; /* Ensure cells have enough height */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box; /* Include padding in width/height */
+}
+
+.calendar-header {
+    background-color: #e0e0e0;
+    font-weight: bold;
+    padding: 15px 10px;
+}
+
+.time-slot-header {
+    background-color: #f0f0f0;
+    font-weight: bold;
+    text-align: right;
+    padding-right: 15px;
+    justify-content: center; /* Vertically center time slot text */
+}
+
+.calendar-cell {
+    background-color: #fff;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+    align-items: flex-start; /* Align class entries to the top-left */
+    padding: 5px; /* Adjust padding for content */
+}
+
+.calendar-cell:hover {
+    background-color: #f9f9f9;
+}
+
+.class-entry {
+    background-color: #d4edda; /* Light green for classes */
+    border: 1px solid #c3e6cb;
+    border-left: 5px solid #28a745; /* Green accent */
+    padding: 8px;
+    margin-bottom: 5px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    text-align: left;
+    width: 100%; /* Take full width of cell */
+    box-sizing: border-box;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.class-entry:hover {
+    background-color: #c3e6cb;
+}
+
+.class-entry strong {
+    display: block;
+    font-size: 0.95rem;
+    margin-bottom: 3px;
+}
+
+/* Class entry overrides */
+.class-entry.room-changed {
+    border-left-color: #ffc107; /* Orange for room change */
+    background-color: #fff3cd;
+}
+.class-entry.time-changed {
+    border-left-color: #17a2b8; /* Blue for time change */
+    background-color: #d1ecf1;
+}
+.class-entry.cancelled {
+    border-left-color: #dc3545; /* Red for cancelled */
+    background-color: #f8d7da;
+    text-decoration: line-through;
+    opacity: 0.7;
+}
+.class-entry .class-user {
+    font-weight: bold;
+    color: #4a4a4a;
+}
+
+
+/* Data Entry Page */
+.data-entry-container {
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping for responsiveness */
+    gap: 30px; /* Space between form and list */
+    justify-content: center;
+}
+
+.data-entry-form {
+    flex: 1; /* Allow form to grow and shrink */
+    min-width: 300px; /* Minimum width for form */
+    background-color: #f9f9f9;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
+    /* --- FIX: Using CSS Grid for better form layout --- */
+    display: grid;
+    grid-template-columns: 120px 1fr; /* Fixed width for labels, rest for inputs */
+    gap: 15px 10px; /* Row gap, column gap */
+    align-items: center; /* Vertically align labels and inputs */
+}
+
+.data-entry-form h3 {
+    grid-column: 1 / -1; /* Span across all columns */
+    text-align: center;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.data-entry-form label {
+    text-align: right; /* Align labels to the right */
+    padding-right: 10px;
+    font-weight: bold;
+}
+
+.data-entry-form input[type="text"],
+.data-entry-form input[type="date"],
+.data-entry-form select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.data-entry-form button[type="submit"] {
+    grid-column: 1 / -1; /* Span across all columns */
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.data-entry-form button[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+.data-entry-form .message {
+    grid-column: 1 / -1; /* Span across all columns */
+    text-align: center;
+    margin-top: 0px; /* Adjust margin */
+    font-size: 0.9rem;
+}
+
+.class-list {
+    flex: 1; /* Allow class list to grow and shrink */
+    min-width: 300px; /* Minimum width for list */
+    background-color: #f9f9f9;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.class-list h3 {
+    text-align: center;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.class-list ul {
+    list-style: none;
+    padding: 0;
+}
+
+.class-list li {
+    background-color: #e9f7ef; /* Lighter green for list items */
+    border: 1px solid #d4edda;
+    border-left: 5px solid #28a745;
+    padding: 12px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    position: relative;
+}
+
+.class-list li .actions {
+    margin-top: 10px;
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+}
+
+.class-list li button {
+    padding: 6px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: background-color 0.3s ease;
+}
+
+.class-list li .edit-class-btn {
+    background-color: #007bff;
+    color: white;
+}
+
+.class-list li .edit-class-btn:hover {
+    background-color: #0056b3;
+}
+
+.class-list li .delete-class-btn {
+    background-color: #dc3545;
+    color: white;
+}
+
+.class-list li .delete-class-btn:hover {
+    background-color: #c82333;
+}
+
+
+/* Attendance Log Page */
+.attendance-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.attendance-controls label {
+    font-weight: bold;
+}
+
+.attendance-controls input[type="date"],
+.attendance-controls button {
+    padding: 8px 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f0f0f0;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.attendance-controls button:hover {
+    background-color: #e0e0e0;
+}
+
+.attendance-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.attendance-table th,
+.attendance-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+.attendance-table th {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.attendance-table tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.attendance-table tbody tr:hover {
+    background-color: #ddd;
+}
+
+
+/* Popup */
+.popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.popup-content {
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    position: relative;
+    width: 90%;
+    max-width: 500px;
+    box-sizing: border-box;
+}
+
+.popup-content h3 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.popup-content p {
+    margin-bottom: 10px;
+    font-size: 0.95rem;
+}
+
+.popup-content strong {
+    color: #555;
+}
+
+.popup-content label {
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.popup-content input[type="date"],
+.popup-content input[type="text"],
+.popup-content select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+}
+
+.popup-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.popup-actions button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease;
+}
+
+#saveOccurrenceEditBtn {
+    background-color: #4CAF50;
+    color: white;
+}
+
+#saveOccurrenceEditBtn:hover {
+    background-color: #45a049;
+}
+
+#cancelOccurrenceBtn {
+    background-color: #dc3545;
+    color: white;
+}
+
+#cancelOccurrenceBtn:hover {
+    background-color: #c82333;
+}
+
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #888;
+}
+
+.close-button:hover {
+    color: #333;
+}
+
+/* Disable styles for inputs when not allowed */
+input:disabled, select:disabled, button:disabled {
+    opacity: 0.7;
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+/* New style for admin buttons */
+.admin-btn {
+    background-color: #f44336; /* Red color for delete action */
+    color: white;
+    border: none;
+    padding: 0.8rem 1.2rem;
+    margin: 0 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.admin-btn:hover {
+    background-color: #d32f2f;
+}
+
+
+/* Basic responsiveness */
+@media (max-width: 768px) {
+    .calendar-grid {
+        grid-template-columns: 100px repeat(5, 1fr);
+        font-size: 0.85rem;
+    }
+    .calendar-header, .time-slot-header, .calendar-cell {
+        min-height: 60px;
+        padding: 5px;
+    }
+    .data-entry-form {
+        grid-template-columns: 1fr; /* Stack labels and inputs on small screens */
+    }
+    .data-entry-form label {
+        text-align: left; /* Align labels to left on small screens */
+        padding-right: 0;
+    }
+    .popup-content {
+        padding: 1.5rem;
+    }
+    nav button {
+        padding: 0.6rem 1rem;
+        margin: 0.3rem;
+    }
+    header {
+        flex-direction: column;
+        text-align: center;
+        padding: 1rem;
+    }
+    header h1 {
+        margin-bottom: 10px;
+    }
+    header nav {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    #currentUserDisplay {
+        margin-top: 10px;
+        margin-left: 0 !important;
+    }
+    .data-entry-container {
+        flex-direction: column; /* Stack form and list vertically */
+    }
+}
+
+@media (max-width: 480px) {
+    header h1 {
+        font-size: 1.5rem;
+    }
+    .auth-form, .data-entry-form, .class-list, .popup-content {
+        padding: 15px;
+    }
+    .auth-form input, .data-entry-form input, .data-entry-form select {
+        font-size: 0.9rem;
+    }
+    .calendar-controls {
+        flex-direction: column;
+    }
+    .calendar-controls button,
+    .calendar-controls select {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+}
