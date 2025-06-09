@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { getFirestore, collection, doc, getDocs, addDoc, updateDoc, deleteDoc, query, where, setDoc, writeBatch } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getFirestore, collection, doc, getDocs, addDoc, updateDoc, deleteDoc, query, where, setDoc, writeBatch, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 console.log('script.js: Script started loading.'); // Added log
 
@@ -313,7 +313,7 @@ async function editClass(id) {
     if (!currentUser) return; // Allow non-admin to edit their own classes
 
     const classDocRef = doc(db, 'users', currentUser.uid, 'classes', id);
-    const docSnap = await getDocs(classDocRef); // Use getDocs for a single doc with doc()
+    const docSnap = await getDoc(classDocRef); // Use getDocs for a single doc with doc()
 
     if (docSnap.exists()) {
         const data = docSnap.data();
