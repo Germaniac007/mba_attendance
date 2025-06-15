@@ -451,7 +451,7 @@ async function fetchOccurrenceOverridesForUser(uid) {
     const querySnapshot = await getDocs(q);
     const overrides = {};
     querySnapshot.forEach(doc => {
-        overrides[`${doc.data().classId}-${doc.data().date}`] = doc.data(); // Key by classId and date
+        overrides[`${uid}-${doc.data().classId}-${doc.data().date}`] = doc.data(); // Key by userId, classId, and date
     });
     return overrides;
 }
@@ -769,6 +769,7 @@ async function saveOccurrenceEdit() {
         }
         alert('Occurrence updated successfully!');
         if (popup) popup.style.display = 'none';
+        occurrenceOverrides = await fetchOccurrenceOverridesForUser(userId);
         updateCalendarView();
     } catch (e) {
         console.error("Error saving occurrence edit: ", e);
@@ -829,6 +830,7 @@ async function cancelOccurrence() {
 
             alert(wasCancelled ? 'Class uncanceled successfully!' : 'Class cancelled successfully!');
             if (popup) popup.style.display = 'none';
+            occurrenceOverrides = await fetchOccurrenceOverridesForUser(userId);
             updateCalendarView();
         } catch (e) {
             console.error("Error toggling class cancellation: ", e);
